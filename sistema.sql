@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Tempo de geração: 21-Abr-2022 às 22:25
+-- Tempo de geração: 23-Abr-2022 às 22:11
 -- Versão do servidor: 5.7.36
 -- versão do PHP: 7.4.26
 
@@ -20,6 +20,28 @@ SET time_zone = "+00:00";
 --
 -- Banco de dados: `sistema`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `categorias`
+--
+
+DROP TABLE IF EXISTS `categorias`;
+CREATE TABLE IF NOT EXISTS `categorias` (
+  `categoria_id` int(11) NOT NULL AUTO_INCREMENT,
+  `categoria_nome` varchar(45) NOT NULL,
+  `categoria_ativa` tinyint(1) DEFAULT NULL,
+  `categoria_data_alteracao` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`categoria_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Extraindo dados da tabela `categorias`
+--
+
+INSERT INTO `categorias` (`categoria_id`, `categoria_nome`, `categoria_ativa`, `categoria_data_alteracao`) VALUES
+(1, 'Games', 1, '2022-04-23 21:38:18');
 
 -- --------------------------------------------------------
 
@@ -138,6 +160,94 @@ CREATE TABLE IF NOT EXISTS `login_attempts` (
 -- --------------------------------------------------------
 
 --
+-- Estrutura da tabela `marcas`
+--
+
+DROP TABLE IF EXISTS `marcas`;
+CREATE TABLE IF NOT EXISTS `marcas` (
+  `marca_id` int(11) NOT NULL AUTO_INCREMENT,
+  `marca_nome` varchar(45) NOT NULL,
+  `marca_ativa` tinyint(1) DEFAULT NULL,
+  `marca_data_alteracao` timestamp NOT NULL,
+  PRIMARY KEY (`marca_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Extraindo dados da tabela `marcas`
+--
+
+INSERT INTO `marcas` (`marca_id`, `marca_nome`, `marca_ativa`, `marca_data_alteracao`) VALUES
+(1, 'Gamer 2', 1, '2022-04-23 21:37:01');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `produtos`
+--
+
+DROP TABLE IF EXISTS `produtos`;
+CREATE TABLE IF NOT EXISTS `produtos` (
+  `produto_id` int(11) NOT NULL AUTO_INCREMENT,
+  `produto_codigo` varchar(45) DEFAULT NULL,
+  `produto_data_cadastro` datetime DEFAULT NULL,
+  `produto_categoria_id` int(11) NOT NULL,
+  `produto_marca_id` int(11) NOT NULL,
+  `produto_fornecedor_id` int(11) NOT NULL,
+  `produto_descricao` varchar(145) DEFAULT NULL,
+  `produto_unidade` varchar(25) DEFAULT NULL,
+  `produto_codigo_barras` varchar(45) DEFAULT NULL,
+  `produto_ncm` varchar(15) DEFAULT NULL,
+  `produto_preco_custo` varchar(45) DEFAULT NULL,
+  `produto_preco_venda` varchar(45) DEFAULT NULL,
+  `produto_estoque_minimo` varchar(10) DEFAULT NULL,
+  `produto_qtde_estoque` varchar(10) DEFAULT NULL,
+  `produto_ativo` tinyint(1) DEFAULT NULL,
+  `produto_obs` tinytext,
+  `produto_data_alteracao` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`produto_id`),
+  KEY `produto_categoria_id` (`produto_categoria_id`,`produto_marca_id`,`produto_fornecedor_id`),
+  KEY `fk_produto_marca_id` (`produto_marca_id`),
+  KEY `fk_produto_forncedor_id` (`produto_fornecedor_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+
+--
+-- Extraindo dados da tabela `produtos`
+--
+
+INSERT INTO `produtos` (`produto_id`, `produto_codigo`, `produto_data_cadastro`, `produto_categoria_id`, `produto_marca_id`, `produto_fornecedor_id`, `produto_descricao`, `produto_unidade`, `produto_codigo_barras`, `produto_ncm`, `produto_preco_custo`, `produto_preco_venda`, `produto_estoque_minimo`, `produto_qtde_estoque`, `produto_ativo`, `produto_obs`, `produto_data_alteracao`) VALUES
+(1, '72495380', NULL, 1, 1, 1, 'Notebook gamer', 'UN', '4545', '5656', '1.800,00', '15.031,00', '2', '3', 1, '', '2020-02-29 01:01:44'),
+(2, '50412637', NULL, 1, 1, 1, 'Fone de ouvido gamer', 'UN', '9999', '9999', '112,00', '125.844,00', '1', '46', 1, '', '2020-02-21 00:45:57'),
+(3, '41697502', NULL, 1, 1, 1, 'Mouse usb', 'UN', '9999', '5555', '9,99', '15,22', '2', '3', 1, '', '2020-02-22 00:46:57');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `servicos`
+--
+
+DROP TABLE IF EXISTS `servicos`;
+CREATE TABLE IF NOT EXISTS `servicos` (
+  `servico_id` int(11) NOT NULL AUTO_INCREMENT,
+  `servico_nome` varchar(145) DEFAULT NULL,
+  `servico_preco` varchar(15) DEFAULT NULL,
+  `servico_descricao` tinytext,
+  `servico_ativo` tinyint(1) DEFAULT NULL,
+  `servico_data_alteracao` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`servico_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+--
+-- Extraindo dados da tabela `servicos`
+--
+
+INSERT INTO `servicos` (`servico_id`, `servico_nome`, `servico_preco`, `servico_descricao`, `servico_ativo`, `servico_data_alteracao`) VALUES
+(1, 'Limpeza geral', '50,00', 'Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos, e vem sendo utilizado desde o século XVI, quando um impressor desconhecido pegou uma bandeja de tipos e os embaralhou para fazer um livro de modelos de tipos. Lorem', 1, '2022-04-23 13:27:09'),
+(2, 'Solda elétrica', '80,00', 'Solda elétrica', 1, '2020-02-13 22:10:21'),
+(3, 'Restauração de componentes', '120,00', 'Restauração de componentes', 1, '2020-02-13 22:11:29');
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura da tabela `sistema`
 --
 
@@ -208,7 +318,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id`, `ip_address`, `username`, `password`, `email`, `activation_selector`, `activation_code`, `forgotten_password_selector`, `forgotten_password_code`, `forgotten_password_time`, `remember_selector`, `remember_code`, `created_on`, `last_login`, `active`, `first_name`, `last_name`, `company`, `phone`) VALUES
-(1, '127.0.0.1', 'administrator', '$2y$10$0zGLcOqh9NvPEz2FaKlLNexF9beC7dE51BrYkEKOqTAiUGDqLtOMu', 'admin@admin.com', NULL, '', NULL, NULL, NULL, NULL, NULL, 1268889823, 1650571999, 1, 'Admin', 'istrator', 'ADMIN', '0'),
+(1, '127.0.0.1', 'administrator', '$2y$10$0zGLcOqh9NvPEz2FaKlLNexF9beC7dE51BrYkEKOqTAiUGDqLtOMu', 'admin@admin.com', NULL, '', NULL, NULL, NULL, NULL, NULL, 1268889823, 1650716519, 1, 'Admin', 'istrator', 'ADMIN', '0'),
 (2, '::1', 'lessacaires', '$2y$10$/q3pGTmTgoiyjTHyhz9Rnuq5loy9spwOf825UZVB19evPL8TjIWPW', 'lessacaires@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1649537527, NULL, 1, 'wyliston', 'lessa caires', NULL, NULL);
 
 -- --------------------------------------------------------
