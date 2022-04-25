@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Tempo de geração: 23-Abr-2022 às 22:11
+-- Tempo de geração: 25-Abr-2022 às 22:23
 -- Versão do servidor: 5.7.36
 -- versão do PHP: 7.4.26
 
@@ -81,6 +81,33 @@ CREATE TABLE IF NOT EXISTS `clientes` (
 
 INSERT INTO `clientes` (`cliente_id`, `cliente_data_cadastro`, `cliente_tipo`, `cliente_nome`, `cliente_sobrenome`, `cliente_data_nascimento`, `cliente_cpf_cnpj`, `cliente_rg_ie`, `cliente_email`, `cliente_telefone`, `cliente_celular`, `cliente_cep`, `cliente_endereco`, `cliente_numero_endereco`, `cliente_bairro`, `cliente_complemento`, `cliente_cidade`, `cliente_estado`, `cliente_ativo`, `cliente_obs`, `cliente_data_alteracao`) VALUES
 (2, '2022-04-17 22:04:57', 1, 'Kaique', 'Benjamin Lima', '2022-04-17', '691.344.540-71', '17.958.602-6', 'kaiquebenjaminlima@riquefroes.com', '(65) 2697-4176', '(65) 99789-8589', '78068-190', 'Rua Érico Veríssimo', '430', 'Santa Cruz', '', 'Cuiabá', 'MT', '1', 'Lorem ipsum per platea fames rhoncus aenean ac, torquent nec volutpat luctus nunc aenean habitasse, est aliquam posuere class felis purus. quisque a diam taciti elementum nibh quisque arcu libero litora, fusce fringilla luctus quisque vivamus luctus suspe', '2022-04-17 22:04:57');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `contas_pagar`
+--
+
+DROP TABLE IF EXISTS `contas_pagar`;
+CREATE TABLE IF NOT EXISTS `contas_pagar` (
+  `conta_pagar_id` int(11) NOT NULL AUTO_INCREMENT,
+  `conta_pagar_fornecedor_id` int(11) DEFAULT NULL,
+  `conta_pagar_data_vencimento` date DEFAULT NULL,
+  `conta_pagar_data_pagamento` datetime DEFAULT NULL,
+  `conta_pagar_valor` varchar(15) DEFAULT NULL,
+  `conta_pagar_status` tinyint(1) DEFAULT NULL,
+  `conta_pagar_obs` tinytext,
+  `conta_pagar_data_alteracao` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`conta_pagar_id`),
+  KEY `fk_conta_pagar_id_fornecedor` (`conta_pagar_fornecedor_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COMMENT='		';
+
+--
+-- Extraindo dados da tabela `contas_pagar`
+--
+
+INSERT INTO `contas_pagar` (`conta_pagar_id`, `conta_pagar_fornecedor_id`, `conta_pagar_data_vencimento`, `conta_pagar_data_pagamento`, `conta_pagar_valor`, `conta_pagar_status`, `conta_pagar_obs`, `conta_pagar_data_alteracao`) VALUES
+(1, 2, '2022-04-25', '2022-04-25 21:09:50', '800', NULL, NULL, '2022-04-25 21:10:16');
 
 -- --------------------------------------------------------
 
@@ -318,7 +345,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id`, `ip_address`, `username`, `password`, `email`, `activation_selector`, `activation_code`, `forgotten_password_selector`, `forgotten_password_code`, `forgotten_password_time`, `remember_selector`, `remember_code`, `created_on`, `last_login`, `active`, `first_name`, `last_name`, `company`, `phone`) VALUES
-(1, '127.0.0.1', 'administrator', '$2y$10$0zGLcOqh9NvPEz2FaKlLNexF9beC7dE51BrYkEKOqTAiUGDqLtOMu', 'admin@admin.com', NULL, '', NULL, NULL, NULL, NULL, NULL, 1268889823, 1650716519, 1, 'Admin', 'istrator', 'ADMIN', '0'),
+(1, '127.0.0.1', 'administrator', '$2y$10$0zGLcOqh9NvPEz2FaKlLNexF9beC7dE51BrYkEKOqTAiUGDqLtOMu', 'admin@admin.com', NULL, '', NULL, NULL, NULL, NULL, NULL, 1268889823, 1650916493, 1, 'Admin', 'istrator', 'ADMIN', '0'),
 (2, '::1', 'lessacaires', '$2y$10$/q3pGTmTgoiyjTHyhz9Rnuq5loy9spwOf825UZVB19evPL8TjIWPW', 'lessacaires@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1649537527, NULL, 1, 'wyliston', 'lessa caires', NULL, NULL);
 
 -- --------------------------------------------------------
@@ -388,6 +415,12 @@ INSERT INTO `vendedores` (`vendedor_id`, `vendedor_codigo`, `vendedor_data_cadas
 --
 -- Restrições para despejos de tabelas
 --
+
+--
+-- Limitadores para a tabela `contas_pagar`
+--
+ALTER TABLE `contas_pagar`
+  ADD CONSTRAINT `fk_conta_pagar_id_fornecedor` FOREIGN KEY (`conta_pagar_fornecedor_id`) REFERENCES `fornecedores` (`fornecedor_id`);
 
 --
 -- Limitadores para a tabela `users_groups`
