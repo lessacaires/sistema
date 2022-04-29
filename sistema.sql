@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Tempo de geração: 25-Abr-2022 às 22:23
+-- Tempo de geração: 29-Abr-2022 às 22:41
 -- Versão do servidor: 5.7.36
 -- versão do PHP: 7.4.26
 
@@ -73,14 +73,16 @@ CREATE TABLE IF NOT EXISTS `clientes` (
   `cliente_obs` tinytext,
   `cliente_data_alteracao` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`cliente_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 --
 -- Extraindo dados da tabela `clientes`
 --
 
 INSERT INTO `clientes` (`cliente_id`, `cliente_data_cadastro`, `cliente_tipo`, `cliente_nome`, `cliente_sobrenome`, `cliente_data_nascimento`, `cliente_cpf_cnpj`, `cliente_rg_ie`, `cliente_email`, `cliente_telefone`, `cliente_celular`, `cliente_cep`, `cliente_endereco`, `cliente_numero_endereco`, `cliente_bairro`, `cliente_complemento`, `cliente_cidade`, `cliente_estado`, `cliente_ativo`, `cliente_obs`, `cliente_data_alteracao`) VALUES
-(2, '2022-04-17 22:04:57', 1, 'Kaique', 'Benjamin Lima', '2022-04-17', '691.344.540-71', '17.958.602-6', 'kaiquebenjaminlima@riquefroes.com', '(65) 2697-4176', '(65) 99789-8589', '78068-190', 'Rua Érico Veríssimo', '430', 'Santa Cruz', '', 'Cuiabá', 'MT', '1', 'Lorem ipsum per platea fames rhoncus aenean ac, torquent nec volutpat luctus nunc aenean habitasse, est aliquam posuere class felis purus. quisque a diam taciti elementum nibh quisque arcu libero litora, fusce fringilla luctus quisque vivamus luctus suspe', '2022-04-17 22:04:57');
+(2, '2022-04-17 22:04:57', 1, 'Kaique', 'Benjamin Lima', '2022-04-17', '691.344.540-71', '17.958.602-6', 'kaiquebenjaminlima@riquefroes.com', '(65) 2697-4176', '(65) 99789-8589', '78068-190', 'Rua Érico Veríssimo', '430', 'Santa Cruz', '', 'Cuiabá', 'MT', '1', 'Lorem ipsum per platea fames rhoncus aenean ac, torquent nec volutpat luctus nunc aenean habitasse, est aliquam posuere class felis purus. quisque a diam taciti elementum nibh quisque arcu libero litora, fusce fringilla luctus quisque vivamus luctus suspe', '2022-04-17 22:04:57'),
+(3, '2022-04-29 12:36:24', 1, 'Wyliston', 'Lessa Caires', '1980-11-11', '001.982.235-95', '0847706788', 'lessacaires@gmail.com', '(84) 99971-4384', '(55) 84999-7143', '59160-530', 'AVENIDA JOAQUIM PATRICIO, 2598', '430', 'Santa Cruz', '', 'NATAL', 'RN', '1', '', '2022-04-29 12:36:38'),
+(4, '2022-04-29 12:48:31', 1, 'Luciana', 'Gabrielly Luana Moreira', '1975-03-04', '120.085.370-99', '17.505.634-1', 'luciana-moreira95@grupoamericaville.com.br', '(67) 2733-4191', '(67) 99770-4656', '79839-406', 'Rua Antônio Vieira Lima', '681', 'Jardim Deoclécio Artuzzi', '', 'Dourados', 'MS', '1', '', '2022-04-29 12:48:31');
 
 -- --------------------------------------------------------
 
@@ -107,7 +109,35 @@ CREATE TABLE IF NOT EXISTS `contas_pagar` (
 --
 
 INSERT INTO `contas_pagar` (`conta_pagar_id`, `conta_pagar_fornecedor_id`, `conta_pagar_data_vencimento`, `conta_pagar_data_pagamento`, `conta_pagar_valor`, `conta_pagar_status`, `conta_pagar_obs`, `conta_pagar_data_alteracao`) VALUES
-(1, 2, '2022-04-25', '2022-04-25 21:09:50', '800', NULL, NULL, '2022-04-25 21:10:16');
+(1, 2, '2022-04-25', '2022-04-29 11:58:25', '8.00', 1, 'Conta paga no dia 25 de abril de 2022', '2022-04-29 11:58:25');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `contas_receber`
+--
+
+DROP TABLE IF EXISTS `contas_receber`;
+CREATE TABLE IF NOT EXISTS `contas_receber` (
+  `conta_receber_id` int(11) NOT NULL AUTO_INCREMENT,
+  `conta_receber_cliente_id` int(11) NOT NULL,
+  `conta_receber_data_vencimento` date DEFAULT NULL,
+  `conta_receber_data_pagamento` datetime DEFAULT NULL,
+  `conta_receber_valor` varchar(20) DEFAULT NULL,
+  `conta_receber_status` tinyint(1) DEFAULT NULL,
+  `conta_receber_obs` tinytext,
+  `conta_receber_data_alteracao` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`conta_receber_id`),
+  KEY `fk_conta_receber_id_cliente` (`conta_receber_cliente_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+--
+-- Extraindo dados da tabela `contas_receber`
+--
+
+INSERT INTO `contas_receber` (`conta_receber_id`, `conta_receber_cliente_id`, `conta_receber_data_vencimento`, `conta_receber_data_pagamento`, `conta_receber_valor`, `conta_receber_status`, `conta_receber_obs`, `conta_receber_data_alteracao`) VALUES
+(1, 2, '2020-02-28', '2022-04-29 08:28:08', '150,226.22', 1, 'Venceu!', '2022-04-29 20:28:08'),
+(3, 4, '2020-02-28', '2020-02-28 17:22:47', '56.00', 1, NULL, '2022-04-29 20:23:10');
 
 -- --------------------------------------------------------
 
@@ -345,7 +375,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id`, `ip_address`, `username`, `password`, `email`, `activation_selector`, `activation_code`, `forgotten_password_selector`, `forgotten_password_code`, `forgotten_password_time`, `remember_selector`, `remember_code`, `created_on`, `last_login`, `active`, `first_name`, `last_name`, `company`, `phone`) VALUES
-(1, '127.0.0.1', 'administrator', '$2y$10$0zGLcOqh9NvPEz2FaKlLNexF9beC7dE51BrYkEKOqTAiUGDqLtOMu', 'admin@admin.com', NULL, '', NULL, NULL, NULL, NULL, NULL, 1268889823, 1650916493, 1, 'Admin', 'istrator', 'ADMIN', '0'),
+(1, '127.0.0.1', 'administrator', '$2y$10$0zGLcOqh9NvPEz2FaKlLNexF9beC7dE51BrYkEKOqTAiUGDqLtOMu', 'admin@admin.com', NULL, '', NULL, NULL, NULL, NULL, NULL, 1268889823, 1651259475, 1, 'Admin', 'istrator', 'ADMIN', '0'),
 (2, '::1', 'lessacaires', '$2y$10$/q3pGTmTgoiyjTHyhz9Rnuq5loy9spwOf825UZVB19evPL8TjIWPW', 'lessacaires@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1649537527, NULL, 1, 'wyliston', 'lessa caires', NULL, NULL);
 
 -- --------------------------------------------------------
